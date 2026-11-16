@@ -1,0 +1,10 @@
+# checked on PyPI, 4 Nov 2026
+openai>=2.45
+python-dotenv
+langchain==1.4.8
+langchain-openai==1.7.3
+langgraph==1.2.19
+langgraph-supervisor==0.0.31
+mcp==2.3.0
+# Optional framework tour (separate environment recommended):
+# openai-agents==0.24.0   crewai==1.15.35   agent-framework==1.24.0

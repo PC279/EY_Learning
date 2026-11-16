@@ -1,0 +1,6 @@
+# Microsoft Agent Framework (workflows, agents, OpenAI client). Tested with 1.25.0
+agent-framework
+# OpenAI SDK: AsyncOpenAI talks to Azure OpenAI's v1 endpoint
+openai
+# Loads settings from .env
+python-dotenv

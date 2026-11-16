@@ -1,0 +1,27 @@
+{
+  "coupons": [
+    {
+      "code": "SAVE10",
+      "description": "10% off on any workshop booking",
+      "discountType": "percentage",
+      "discountValue": 10,
+      "condition": {
+        "type": "none"
+      },
+      "active": true
+    },
+    {
+      "code": "BULK15",
+      "description": "15% off when total cost (course fee × participants) exceeds 10000",
+      "discountType": "percentage",
+      "discountValue": 15,
+      "condition": {
+        "type": "minTotal",
+        "field": "totalCost",
+        "operator": ">",
+        "value": 10000
+      },
+      "active": true
+    }
+  ]
+}

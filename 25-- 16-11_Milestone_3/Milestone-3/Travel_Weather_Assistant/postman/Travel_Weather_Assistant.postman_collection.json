@@ -1,0 +1,448 @@
+{
+  "info": {
+    "name": "Travel & Weather Advisory Assistant",
+    "description": "Run the requests in order (1-10) after `python init_db.py` and `uvicorn main:app --reload`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Create trip (Jaipur)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trips",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trips"
+          ]
+        },
+        "description": "Scenario: New employee trip. Validates input and saves it in SQLite. Saves trip_id for the next request.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employee_id\": \"EMP104\",\n  \"destination\": \"Jaipur\",\n  \"start_date\": \"{{startDate}}\",\n  \"end_date\": \"{{endDate}}\",\n  \"purpose\": \"Client meeting\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Trip dates relative to today so they are always inside Open-Meteo's 16-day forecast window",
+              "const day = n => new Date(Date.now() + n * 86400000).toISOString().slice(0, 10);",
+              "pm.collectionVariables.set('startDate', day(2));",
+              "pm.collectionVariables.set('endDate', day(4));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 201', () => pm.response.to.have.status(201));",
+              "pm.collectionVariables.set('tripId', pm.response.json().trip_id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Get trip by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/trips/{{tripId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trips",
+            "{{tripId}}"
+          ]
+        },
+        "description": "Scenario: Existing trip lookup from SQLite."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Ask - Chat 1 (weather)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ask",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ask"
+          ]
+        },
+        "description": "Scenario: Weather inquiry. Model calls find_employee_trips, then the weather tool runs. See tools_used.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"session_id\": \"emp104-session-1\",\n  \"employee_id\": \"EMP104\",\n  \"question\": \"What weather should I expect for my Jaipur trip?\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 200', () => pm.response.to.have.status(200));",
+              "pm.test('tools were used', () => pm.expect(pm.response.json().tools_used.length).to.be.above(0));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Ask - Chat 2 (follow-up, same session)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ask",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ask"
+          ]
+        },
+        "description": "Scenario: Follow-up. No destination given; Redis session memory supplies the Jaipur trip.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"session_id\": \"emp104-session-1\",\n  \"employee_id\": \"EMP104\",\n  \"question\": \"Should I pack an umbrella and light jacket?\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 200', () => pm.response.to.have.status(200));",
+              "pm.test('tools were used', () => pm.expect(pm.response.json().tools_used.length).to.be.above(0));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Ask - new session (isolation)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ask",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ask"
+          ]
+        },
+        "description": "A different session has no memory of Jaipur, so the assistant asks which trip instead of guessing.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"session_id\": \"emp104-session-2\",\n  \"employee_id\": \"EMP104\",\n  \"question\": \"Will I need an umbrella there?\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Failure - invalid dates",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trips",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trips"
+          ]
+        },
+        "description": "Scenario: Invalid input. end_date before start_date is rejected with 422.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employee_id\": \"EMP104\",\n  \"destination\": \"Jaipur\",\n  \"start_date\": \"{{endDate}}\",\n  \"end_date\": \"{{startDate}}\",\n  \"purpose\": \"Client meeting\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 422', () => pm.response.to.have.status(422));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Failure - date beyond forecast window (London)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ask",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ask"
+          ]
+        },
+        "description": "Uses the sample London trip (40 days ahead, from init_db.py). The assistant says the forecast is unavailable.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"session_id\": \"emp104-session-3\",\n  \"employee_id\": \"EMP104\",\n  \"question\": \"What is the weather for my London trip?\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Failure - create trip to unknown city",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trips",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trips"
+          ]
+        },
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employee_id\": \"EMP777\",\n  \"destination\": \"Qwertyville\",\n  \"start_date\": \"{{startDate}}\",\n  \"end_date\": \"{{endDate}}\",\n  \"purpose\": \"Site visit\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Trip dates relative to today so they are always inside Open-Meteo's 16-day forecast window",
+              "const day = n => new Date(Date.now() + n * 86400000).toISOString().slice(0, 10);",
+              "pm.collectionVariables.set('startDate', day(2));",
+              "pm.collectionVariables.set('endDate', day(4));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 201', () => pm.response.to.have.status(201));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "9. Failure - ask about unknown city",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ask",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ask"
+          ]
+        },
+        "description": "Geocoding cannot find the city, so the assistant reports it instead of inventing weather.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"session_id\": \"emp777-session-1\",\n  \"employee_id\": \"EMP777\",\n  \"question\": \"What weather should I expect for my Qwertyville trip?\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10. Failure - trip not found",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/trips/99999",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trips",
+            "99999"
+          ]
+        },
+        "description": ""
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 404', () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "tripId",
+      "value": "1"
+    },
+    {
+      "key": "startDate",
+      "value": ""
+    },
+    {
+      "key": "endDate",
+      "value": ""
+    }
+  ]
+}

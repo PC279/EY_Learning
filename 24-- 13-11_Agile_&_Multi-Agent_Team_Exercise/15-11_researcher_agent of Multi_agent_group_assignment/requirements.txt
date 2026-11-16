@@ -1,0 +1,5 @@
+langchain==1.5.0
+langchain-openai==1.7.4
+langchain-tavily==0.2.18
+langgraph==1.2.21
+python-dotenv==1.2.4

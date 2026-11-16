@@ -1,0 +1,10 @@
+DAYMARK — PROJECT PLANNER & HABIT TRACKER
+Build baseline: 1.0.0
+Created: 30 October 2026
+
+Frontend: React + TypeScript + Vite
+Backend: Python + FastAPI + SQLAlchemy
+Database: PostgreSQL 16 (psycopg 3 driver)
+
+Read README.md first. It contains the Windows / PyCharm / pgAdmin setup instructions,
+connection details, API verification and test steps.

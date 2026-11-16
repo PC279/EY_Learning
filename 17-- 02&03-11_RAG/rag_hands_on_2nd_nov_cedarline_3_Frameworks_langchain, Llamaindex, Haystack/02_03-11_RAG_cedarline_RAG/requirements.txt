@@ -1,0 +1,10 @@
+# Core RAG libraries
+tiktoken>=0.7
+sentence-transformers>=3.0
+chromadb>=0.5
+python-dotenv>=1.0
+
+# AI providers (you only use one, but installing all three is fine)
+google-genai>=1.0
+openai>=1.40
+anthropic>=0.40

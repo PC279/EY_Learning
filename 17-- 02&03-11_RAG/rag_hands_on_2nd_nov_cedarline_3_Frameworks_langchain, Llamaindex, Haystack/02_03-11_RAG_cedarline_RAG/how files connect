@@ -1,0 +1,14 @@
+.env ─────────► config.py          (loads the key, model name, folder paths)
+                    │
+                    ▼
+               rag_helpers.py      (load_documents, embed_texts → your MiniLM model)
+                    │
+                    ▼
+            langchain_demo.py      FILE 1: chunk → embed → store → search
+                    │
+                    │  File 2 imports: COLLECTION, LocalEmbeddings, get_client
+                    ▼
+          langchain_ai_answer.py   FILE 2: search → prompt → AI answer
+                    │
+                    ▼
+              chroma_db/           both files use the collection "langchain_cedarline"

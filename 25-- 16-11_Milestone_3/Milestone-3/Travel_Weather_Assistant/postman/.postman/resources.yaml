@@ -1,0 +1,7 @@
+# Use this workspace to collaborate
+workspace:
+  id: 0d2922d3-f815-49c8-8e01-7f7af545aafb
+
+localResources:
+  collections:
+    - ../Travel_Weather_Assistant.postman_collection.json

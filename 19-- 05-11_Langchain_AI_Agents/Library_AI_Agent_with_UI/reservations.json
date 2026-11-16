@@ -1,0 +1,9 @@
+[
+  {
+    "reservation_id": "R-0001",
+    "book_id": 106,
+    "title": "Hands-On Machine Learning with Scikit-Learn and TensorFlow",
+    "customer_name": "Piyush",
+    "reserved_at": "2026-11-05T06:42:07+00:00"
+  }
+]

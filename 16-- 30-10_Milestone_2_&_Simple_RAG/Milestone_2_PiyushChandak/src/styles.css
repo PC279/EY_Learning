@@ -1,0 +1,450 @@
+/* Design tokens. Colours are named by role so the pairs are easy to check. */
+:root {
+  --paper: #f7f2e8;
+  --paper-deep: #ede5d3;
+  --field: #fffdf8;
+  --ink: #231f1a;
+  --muted: #5c5348;
+  --line: #d8cdb8;
+  --field-border: #7a6f5c;
+  --teal: #1d4e4f;
+  --teal-dark: #123234;
+  --clay: #9c3b22;
+  --success-bg: #e2ecd9;
+  --success-text: #25502f;
+
+  --tint-technology: #d3e2e8;
+  --tint-arts: #f0d8c9;
+  --tint-life-skills: #dce6cf;
+
+  --font-body: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --radius: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 {
+  margin: 40px 0 8px;
+  font-size: 2rem;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--teal);
+}
+
+.container {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+main.container {
+  padding-bottom: 64px;
+}
+
+.intro {
+  max-width: 52ch;
+  margin-bottom: 28px;
+  color: var(--muted);
+}
+
+/* Masthead and navigation */
+.masthead {
+  border-top: 6px solid var(--teal);
+  border-bottom: 1px solid var(--line);
+}
+
+.masthead-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 24px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+
+nav a:hover {
+  border-bottom-color: var(--line);
+}
+
+nav a.active {
+  font-weight: 600;
+  border-bottom-color: var(--teal);
+}
+
+.count {
+  min-width: 1.5em;
+  padding: 0 6px;
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--paper);
+  background: var(--ink);
+  border-radius: 999px;
+}
+
+/* Form controls */
+label,
+.label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--field);
+  border: 1px solid var(--field-border);
+  border-radius: var(--radius);
+}
+
+input[aria-invalid="true"] {
+  border-color: var(--clay);
+  border-width: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
+
+button {
+  min-height: 44px;
+  padding: 0 18px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  background: var(--paper-deep);
+}
+
+button.primary {
+  color: #ffffff;
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+button.primary:hover:not(:disabled) {
+  background: var(--teal-dark);
+}
+
+button.danger {
+  color: var(--clay);
+  border-color: var(--clay);
+}
+
+button:disabled {
+  color: var(--muted);
+  background: var(--paper-deep);
+  border-color: var(--line);
+  cursor: not-allowed;
+}
+
+/* Search and category filter */
+.filters {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.search-field {
+  max-width: 420px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chips button {
+  border-color: var(--line);
+}
+
+.chips button[aria-pressed="true"] {
+  color: var(--paper);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+/* Event rows */
+.events,
+.registrations {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ink);
+}
+
+.event {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.event-row {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px 16px;
+}
+
+.event-seats,
+.event-action {
+  grid-column: 2;
+}
+
+.event-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  line-height: 1.1;
+  background: var(--paper-deep);
+  border-radius: var(--radius);
+}
+
+.event[data-category="Technology"] .event-date {
+  background: var(--tint-technology);
+}
+
+.event[data-category="Arts"] .event-date {
+  background: var(--tint-arts);
+}
+
+.event[data-category="Life Skills"] .event-date {
+  background: var(--tint-life-skills);
+}
+
+.day {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.month {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.category {
+  margin-bottom: 2px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.when {
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+
+.dot.taken {
+  background: var(--ink);
+}
+
+dl {
+  display: flex;
+  gap: 24px;
+  margin: 0;
+}
+
+dt {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+dd.full {
+  color: var(--clay);
+}
+
+.event-action button {
+  width: 100%;
+}
+
+@media (min-width: 720px) {
+  .event-row {
+    grid-template-columns: 64px 1fr 190px 160px;
+    align-items: center;
+    gap: 16px 24px;
+  }
+
+  .event-seats,
+  .event-action {
+    grid-column: auto;
+  }
+}
+
+/* Registration form, opened inside its event row */
+.form {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 20px;
+  background: var(--paper-deep);
+  border-radius: var(--radius);
+}
+
+@media (min-width: 640px) {
+  .form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form > .error,
+  .form > .actions {
+    grid-column: 1 / span 2;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.error {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--clay);
+}
+
+.success {
+  margin-top: 16px;
+  padding: 10px 14px;
+  color: var(--success-text);
+  background: var(--success-bg);
+  border-left: 4px solid var(--success-text);
+}
+
+/* Registrations list */
+.reg {
+  display: grid;
+  gap: 12px 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.reg-who p {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.reg-what {
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (min-width: 720px) {
+  .reg {
+    grid-template-columns: 1fr 1fr 190px;
+    align-items: center;
+  }
+}
+
+.reg-action button {
+  width: 100%;
+}
+
+/* Empty states */
+.empty {
+  margin-top: 24px;
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--field-border);
+  border-radius: var(--radius);
+}
+
+.empty p {
+  margin-bottom: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: none;
+  }
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "reservation_id": "R-0001",
+    "book_id": 101,
+    "title": "Python Crash Course",
+    "customer_name": "Ahmad",
+    "reserved_at": "2026-11-05T05:49:33+00:00"
+  },
+  {
+    "reservation_id": "R-0002",
+    "book_id": 106,
+    "title": "Hands-On Machine Learning with Scikit-Learn and TensorFlow",
+    "customer_name": "Priya",
+    "reserved_at": "2026-11-05T05:51:34+00:00"
+  }
+]

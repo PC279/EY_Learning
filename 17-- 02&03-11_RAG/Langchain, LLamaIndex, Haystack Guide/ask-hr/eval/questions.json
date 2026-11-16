@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "question": "How many days of annual leave do employees in India get?",
+    "expected": "21 working days",
+    "expected_sources": [
+      "leave_policy_india.md"
+    ],
+    "must_include": [
+      "21"
+    ],
+    "office": null
+  },
+  {
+    "id": 2,
+    "question": "What is the minimum password length?",
+    "expected": "14 characters",
+    "expected_sources": [
+      "it_security.html"
+    ],
+    "must_include": [
+      "14"
+    ],
+    "office": null
+  },
+  {
+    "id": 3,
+    "question": "When is salary credited?",
+    "expected": "Last working day of the month",
+    "expected_sources": [
+      "hr_faq.csv"
+    ],
+    "must_include": [
+      "last working day"
+    ],
+    "office": null
+  },
+  {
+    "id": 4,
+    "question": "What are the core working hours?",
+    "expected": "11:00 to 16:00",
+    "expected_sources": [
+      "employee_handbook.pdf"
+    ],
+    "must_include": [
+      "11"
+    ],
+    "office": null
+  },
+  {
+    "id": 5,
+    "question": "How do I report a phishing email?",
+    "expected": "Report button, or forward to security@nimbus.example",
+    "expected_sources": [
+      "it_security.html"
+    ],
+    "must_include": [
+      "security@nimbus.example"
+    ],
+    "office": null
+  },
+  {
+    "id": 6,
+    "question": "What's the hotel limit per night in Berlin?",
+    "expected": "€150 per night",
+    "expected_sources": [
+      "travel_policy.md"
+    ],
+    "must_include": [
+      "150"
+    ],
+    "office": null
+  },
+  {
+    "id": 7,
+    "question": "I left my laptop in a taxi, what now?",
+    "expected": "Tell the IT helpdesk (ext. 4357) within one hour",
+    "expected_sources": [
+      "it_security.html"
+    ],
+    "must_include": [
+      "4357"
+    ],
+    "office": null
+  },
+  {
+    "id": 8,
+    "question": "Can I carry unused leave into next year?",
+    "expected": "Depends on office: India up to 10 days, Germany up to 5, both used by 31 March",
+    "expected_sources": [
+      "leave_policy_india.md",
+      "leave_policy_germany.md"
+    ],
+    "must_include": [
+      "10",
+      "5",
+      "31 March"
+    ],
+    "office": null
+  },
+  {
+    "id": 9,
+    "question": "How much is the wellness allowance?",
+    "expected": "₹1,500 a month (India), €40 a month (Germany)",
+    "expected_sources": [
+      "hr_faq.csv"
+    ],
+    "must_include": [
+      "1,500",
+      "40"
+    ],
+    "office": null
+  },
+  {
+    "id": 10,
+    "question": "Do I need approval for a ₹60,000 trip?",
+    "expected": "Yes, pre-approval is needed above ₹50,000",
+    "expected_sources": [
+      "travel_policy.md"
+    ],
+    "must_include": [
+      "50,000"
+    ],
+    "office": null
+  },
+  {
+    "id": 11,
+    "question": "I'm on probation. Can I take a 7-day vacation?",
+    "expected": "No, at most 5 days of annual leave during probation",
+    "expected_sources": [
+      "employee_handbook.pdf"
+    ],
+    "must_include": [
+      "5"
+    ],
+    "office": null
+  },
+  {
+    "id": 12,
+    "question": "How much leave does a new father in India get?",
+    "expected": "4 weeks paternity leave",
+    "expected_sources": [
+      "leave_policy_india.md"
+    ],
+    "must_include": [
+      "4 weeks"
+    ],
+    "office": null
+  },
+  {
+    "id": 13,
+    "question": "Can I fly premium economy from Bengaluru to New York?",
+    "expected": "Yes, flights of 6 hours or more allow premium economy",
+    "expected_sources": [
+      "travel_policy.md"
+    ],
+    "must_include": [
+      "6 hours"
+    ],
+    "office": null
+  },
+  {
+    "id": 14,
+    "question": "What is Nimbus Corp's share price?",
+    "expected": "Not in the documents",
+    "expected_sources": [],
+    "must_include": [
+      "couldn't find"
+    ],
+    "office": null
+  },
+  {
+    "id": 15,
+    "question": "What's the dress code?",
+    "expected": "Not in the documents",
+    "expected_sources": [],
+    "must_include": [
+      "couldn't find"
+    ],
+    "office": null
+  }
+]

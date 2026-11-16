@@ -1,0 +1,75 @@
+CONTOSO LTD.
+EMPLOYEE LEAVE POLICY
+Fictional policy for training purposes only.
+
+====================================================================
+1. PURPOSE
+====================================================================
+This policy explains the types of leave available to Contoso employees,
+how many days each type provides, who is eligible, and how to apply.
+
+====================================================================
+2. LEAVE YEAR
+====================================================================
+The leave year runs from 1 January to 31 December.
+
+====================================================================
+3. LEAVE TYPES AND ENTITLEMENT
+====================================================================
+Leave Type       Days per year   Purpose
+---------------  --------------  ------------------------------------
+Casual Leave     12              Short personal needs and errands
+Sick Leave       10              When the employee is unwell
+Annual Leave     18              Planned holidays and longer breaks
+
+An employee cannot take more days of a leave type than they are entitled
+to in the current leave year.
+
+====================================================================
+4. ELIGIBILITY RULES
+====================================================================
+A leave request is valid only when all the rules that apply are met:
+
+4.1 Entitlement
+    The days requested must be within the employee's yearly entitlement
+    for that leave type.
+
+4.2 Advance notice
+    Casual Leave and Annual Leave must be applied for at least 2 calendar
+    days before the first day of leave.
+    Example: for leave starting on Friday, apply on Wednesday or earlier.
+
+4.3 Sick Leave exception
+    Sick Leave is exempt from the advance-notice rule. It may be applied
+    for at short notice, including on the day of absence.
+
+4.4 Manager approval
+    All leave requests, including Sick Leave, require approval from the
+    employee's manager. Leave is confirmed only after approval.
+
+====================================================================
+5. HOW TO APPLY FOR LEAVE
+====================================================================
+1. Log in to the Contoso HR Portal.
+2. Open "Apply for Leave".
+3. Choose the leave type, the start and end dates, and add a short reason.
+4. Submit the request (at least 2 calendar days in advance, except Sick
+   Leave).
+5. The request goes to your manager, who approves or rejects it.
+6. You receive a notification with the decision in the HR Portal.
+
+For Sick Leave, also inform your manager as early as possible on the day
+of absence. Medical details are not required to apply.
+
+====================================================================
+6. CHECKING YOUR LEAVE BALANCE
+====================================================================
+Employees can see how many days they have left for each leave type in the
+Contoso HR Portal.
+
+====================================================================
+7. MATTERS NOT COVERED
+====================================================================
+Topics not described in this policy (for example carry-forward of unused
+leave, leave encashment, half-day leave, parental leave, or public
+holidays) should be raised with the HR team.

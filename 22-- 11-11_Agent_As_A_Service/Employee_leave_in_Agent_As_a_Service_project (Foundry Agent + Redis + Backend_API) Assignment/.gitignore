@@ -1,0 +1,11 @@
+# Settings and secrets
+.env
+
+# Installed packages (recreate with: pip install -r requirements.txt)
+.venv/
+
+# Python's compiled-file cache
+__pycache__/
+
+# PyCharm project settings
+.idea/

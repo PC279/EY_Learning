@@ -1,0 +1,11 @@
+# checked on PyPI, 6 Nov 2026
+langgraph==1.2.19
+langchain==1.4.8
+langchain-openai==1.7.3
+langgraph-swarm==0.1.0
+langgraph-supervisor==0.0.31
+langchain-mcp-adapters==0.3.2
+mcp>=1.24,<2            # the adapters need the 1.x MCP SDK
+python-dotenv
+pydantic>=2
+pytest

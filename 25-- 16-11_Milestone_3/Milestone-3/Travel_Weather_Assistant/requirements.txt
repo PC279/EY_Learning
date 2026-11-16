@@ -1,0 +1,13 @@
+# API
+fastapi>=0.115
+uvicorn>=0.30
+# LangChain + the local Ollama model
+langchain-core>=1.0
+langchain-ollama>=1.0
+# Session memory and weather API
+redis>=5.0
+requests>=2.31
+python-dotenv>=1.0
+# Tests only (python -m pytest) - no Redis, Ollama or internet needed
+pytest>=8.0
+fakeredis>=2.20
