@@ -18,7 +18,7 @@ DEMO_TICKETS = [
      "Since 9 am nobody in Finance can open the shared drive. Month-end reports are blocked."),
 ]
 
-print(f"Model: {settings.AI_MODEL}\nEndpoint: {settings.AI_BASE_URL}\n")   # never print the key
+print(f"Model: {settings.OPENROUTER_MODEL}\nEndpoint: {settings.OPENROUTER_BASE_URL}\n")   # never print the key
 
 for label, title, description in DEMO_TICKETS:
     try:
@@ -29,9 +29,9 @@ for label, title, description in DEMO_TICKETS:
             print(f"  - {step}")
     # Each failure type points to a different fix
     except AIUnavailableError:
-        print(f"{label}: UNAVAILABLE - check AI_API_KEY, the model ID, or wait if rate limited (429)")
+        print(f"{label}: UNAVAILABLE - check OPENROUTER_API_KEY, OPENROUTER_MODEL, or wait if rate limited (429)")
     except AITimeoutError:
-        print(f"{label}: TIMEOUT - raise AI_TIMEOUT_SECONDS or try a faster model")
+        print(f"{label}: TIMEOUT - raise AI_TIMEOUT_SECONDS in .env or try a faster model")
     except AIInvalidOutputError:
         print(f"{label}: INVALID OUTPUT - this model ignores the JSON format; try another free model")
     print()

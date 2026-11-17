@@ -1,21 +1,41 @@
-"""
-config.py - reads all settings from backend/.env, so no password or key is ever written in code.
-(Owned by Person B in the team plan; B can keep this or extend it.)
-"""
+
+import os
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class Settings(BaseSettings):
-    # Load values from the .env file in the folder you run commands from (backend/)
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+BACKEND_DIR = Path(__file__).resolve().parents[1]
 
-    DATABASE_URL: str                       # required: the app stops with a clear error if missing
-    AI_BASE_URL: str = "https://openrouter.ai/api/v1"
-    AI_MODEL: str = ""                      # e.g. a free OpenRouter model id ending in :free
-    AI_API_KEY: str = ""                    # never commit the real key
-    AI_TIMEOUT_SECONDS: float = 30
+
+class Settings(BaseSettings):
+    DATABASE_URL: str = (
+        "postgresql+psycopg://helpdesk:CHANGE_ME@localhost:5432/helpdesk"
+    )
+
+    OPENROUTER_API_KEY: str = ""
+    OPENROUTER_BASE_URL: str = "https://openrouter.ai/api/v1"
+    OPENROUTER_MODEL: str = ""
+
+    AI_TIMEOUT_SECONDS: int = 30
     AI_ENABLED: bool = True
 
+    LOG_LEVEL: str = "INFO"
+    CORS_ORIGINS: str = "http://localhost:5173"
 
-# One shared settings object that the rest of the app imports
+    model_config = SettingsConfigDict(
+        env_file=BACKEND_DIR / ".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    @property
+    def cors_origins_list(self) -> list[str]:
+        return [
+            origin.strip()
+            for origin in self.CORS_ORIGINS.split(",")
+            if origin.strip()
+        ]
+
+
 settings = Settings()

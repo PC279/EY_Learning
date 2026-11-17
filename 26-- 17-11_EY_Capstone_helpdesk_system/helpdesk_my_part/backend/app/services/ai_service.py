@@ -1,9 +1,12 @@
 """
 ai_service.py - asks the AI model for a category, priority and troubleshooting steps.
 
-Works with any OpenAI-compatible chat endpoint, so the team can switch provider in .env only:
-  Ollama (local):  AI_BASE_URL=http://localhost:11434/v1   AI_MODEL=qwen2.5:3b   AI_API_KEY= (empty)
-  OpenRouter:      AI_BASE_URL=https://openrouter.ai/api/v1  AI_MODEL=<model id ending in :free>  AI_API_KEY=<key>
+Uses OpenRouter's OpenAI-compatible chat endpoint, configured in backend/.env:
+  OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+  OPENROUTER_MODEL=<model id ending in :free>
+  OPENROUTER_API_KEY=<key>
+Because the request format is OpenAI-compatible, a local Ollama model also works with only .env changes:
+  OPENROUTER_BASE_URL=http://localhost:11434/v1   OPENROUTER_MODEL=qwen2.5:3b   OPENROUTER_API_KEY= (empty)
 
 This module only RETURNS data. It never touches the database or the ticket, which is how
 we guarantee the AI cannot change a ticket's status, category or priority on its own.
@@ -97,14 +100,14 @@ def analyse_ticket(ticket_id: int, title: str, description: str) -> AISuggestion
         raise AIUnavailableError("AI is disabled in configuration")
 
     headers = {"Content-Type": "application/json"}
-    if settings.AI_API_KEY:   # Ollama needs no key; OpenRouter does
-        headers["Authorization"] = f"Bearer {settings.AI_API_KEY}"
-    body = {"model": settings.AI_MODEL, "messages": build_messages(title, description),
+    if settings.OPENROUTER_API_KEY:   # OpenRouter needs a key; a local Ollama model does not
+        headers["Authorization"] = f"Bearer {settings.OPENROUTER_API_KEY}"
+    body = {"model": settings.OPENROUTER_MODEL, "messages": build_messages(title, description),
             "temperature": 0.2}   # low temperature = more consistent classification
 
     started = time.perf_counter()
     try:
-        response = httpx.post(f"{settings.AI_BASE_URL}/chat/completions", json=body,
+        response = httpx.post(f"{settings.OPENROUTER_BASE_URL}/chat/completions", json=body,
                               headers=headers, timeout=settings.AI_TIMEOUT_SECONDS)
     except httpx.TimeoutException as exc:
         logger.warning("ai_analysis ticket_id=%s outcome=timeout", ticket_id)

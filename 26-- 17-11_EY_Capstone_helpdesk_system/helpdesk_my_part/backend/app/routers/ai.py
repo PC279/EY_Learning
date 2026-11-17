@@ -1,8 +1,8 @@
 """
-routers/ai.py - AI endpoints owned by Person C.
-(Person B adds POST /ai-suggestions/{id}/feedback to this same file.)
+routers/ai.py - AI endpoints owned by Piyush.
+(The feedback endpoint lives in routers/feedback.py.)
 
-Register in main.py with: app.include_router(ai.router, prefix="/api")
+Registered in main.py with: app.include_router(ai.router)
 """
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
@@ -15,7 +15,7 @@ from app.schemas import AISuggestionOut
 from app.services.ai_service import (AIInvalidOutputError, AITimeoutError,
                                      AIUnavailableError, analyse_ticket)
 
-router = APIRouter(tags=["AI"])
+router = APIRouter(prefix="/api", tags=["AI"])
 
 
 def get_ticket_or_404(db: Session, ticket_id: int) -> Ticket:
@@ -48,7 +48,7 @@ def run_ai_analysis(ticket_id: int, db: Session = Depends(get_db)):
         suggested_priority=result.priority,
         priority_reason=result.priority_reason,
         troubleshooting_steps=result.troubleshooting_steps,
-        model_name=settings.AI_MODEL,
+        model_name=settings.OPENROUTER_MODEL,
     )
     db.add(suggestion)
     db.commit()
@@ -62,5 +62,6 @@ def list_ai_suggestions(ticket_id: int, db: Session = Depends(get_db)):
     get_ticket_or_404(db, ticket_id)
     rows = db.scalars(select(AISuggestion)
                       .where(AISuggestion.ticket_id == ticket_id)
-                      .order_by(AISuggestion.created_at.desc()))
+                      # id breaks ties when two suggestions share the same timestamp
+                      .order_by(AISuggestion.created_at.desc(), AISuggestion.id.desc()))
     return list(rows)
